@@ -37,7 +37,11 @@ RUN pip install --no-cache-dir matplotlib
 # any arguments passed to `docker run` after the image name replace the
 # CMD list below and go straight to uncertainty_plot.py.
 ENTRYPOINT ["python", "uncertainty_plot.py"]
-CMD ["--dataset=mnist", "--num_train=1000", "--num_eval=1000", \
-     "--hparams=depth=3,weight_var=2.0,bias_var=0.2", \
-     "--nonlinearities=tanh,relu", \
-     "--output_file=/nngp/output/uncertainty_fig3_mnist.png"]
+# I removed the dataset flag because it now passes both the MNIST and CIFAR-10 datasets
+# by default to match the figure 3. Also increased the num_train and num_eval to 5000
+# and changed the output_file name.
+CMD ["--num_train=5000", "--num_eval=5000", \
+     #"--hparams=depth=3,weight_var=2.0,bias_var=0.2", \
+     #"--nonlinearities=tanh,relu", \
+     #"--output_file=/nngp/output/uncertainty_fig3_reproduction.png"]
+     "--output_dir=/nngp/output"]
