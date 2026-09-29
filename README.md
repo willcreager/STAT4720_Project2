@@ -24,6 +24,8 @@ I chose option 2, which was to reproduce figure 3 (predictive uncertainty vs. pr
 ![Original Uncertainty Figure 3](uncertainty_fig3_original.png)
 ![Reproduction Uncertainty Figure 3](uncertainty_fig3_reproduction.png)
 
+Note that the reproduction figure (bottom) does not perfectly match the original (top), due to the limitations described below.
+
 ## Unique Extension
 
 ### 1. Objective and Theoretical Justification
@@ -54,7 +56,7 @@ Furthermore, the dynamic scaling visualizations highlight that ELU stretches the
 
 ## Limitations
 
-While this codebase successfully reproduces the qualitative claims of Lee et al. (2018), two explicit modifications were made to accommodate localized computational and memory ceilings inside the containerized environment. First, the training and evaluation dataset sizes were constrained to N_train = 5000 and N_eval = 5000, whereas the original paper utilizes full benchmark sets (N=45000-50000). Because infinite-width NNGP regression requires computing and inverting a massive \(N \times N\) training covariance matrix (\[K_{DD}\]), scaling to the full dataset requires substantial memory and brings execution times close to an hour on basic hardware. Dropping this down to a 5k subset successfully avoids container time-outs while still providing enough data density to reveal the core calibration correlations. 
+While this codebase successfully reproduces the qualitative claims of Lee et al. (2018), two explicit modifications were made to accommodate localized computational and memory ceilings inside the containerized environment. First, the training and evaluation dataset sizes were constrained to N_train = 5000 and N_eval = 5000, whereas the original paper utilizes full benchmark sets (N=45000-50000). Because infinite-width NNGP regression requires computing and inverting a massive \(N X N\) training covariance matrix (K_DD), scaling to the full dataset requires substantial memory and brings execution times close to an hour on basic hardware. Dropping this down to a 5k subset successfully avoids container time-outs while still providing enough data density to reveal the core calibration correlations. 
 
 Second, because the repository does not contain a pre-computed covariance lookup array for the ELU activation used for my extension, the script must construct a 2D numerical Gaussian integration grid from scratch via _compute_qmap_grid. Compiling this grid using the paper's original high-resolution specifications (501 X 501) causes concurrent multi-core tensor allocations that trigger an Out-Of-Memory (OOM) kernel termination ("Killed") inside standard Docker daemons. To circumvent this, the grid resolution was dialed back to n_gauss=51, n_var=51, and n_corr=50 during the ELU computation loop. This reduction significantly lowered the execution memory footprint, allowing the script to compile successfully while still generating a sufficiently smooth interpolation space to map the underlying Gaussian process accurately.
 
