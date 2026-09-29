@@ -26,7 +26,13 @@ I chose option 2, which was to reproduce figure 3 (predictive uncertainty vs. pr
 
 For this extension, I integrated the Exponential Linear Unit (ELU) activation function into the infinite-width Neural Network Gaussian Process (NNGP) framework. While the original paper by Lee et al. (2018) extensively profiles the traditional rectified linear unit (ReLU) and hyperbolic tangent (tanh) functions, it omits smooth, non-monotonic, or saturating activations with non-zero negative regimes. ELU is defined as: 
 
-$$\text{ELU}(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha(e^x - 1) & \text{if } x \le 0 \end{cases}$$
+$$
+\text{ELU}(x) = 
+\begin{cases} 
+x & \text{if } x > 0 \\ 
+\alpha(e^x - 1) & \text{if } x \le 0 
+\end{cases}
+$$
 
 Integrating ELU provides an ideal vehicle to test the robustness of uncertainty calibration when a network retains non-zero gradient tracking for negative pre-activations. Unlike ReLU, which exhibits a sharp derivative discontinuity at zero and completely nullifies negative states, ELU pushes the mean activation closer to zero while ensuring smooth, continuous transitions. Because the mathematical expectation of the ELU kernel cannot be solved analytically via standard closed-form algebraic equations, I successfully leveraged the codebase's underlying 2D numerical Gaussian integration grid engine (_compute_qmap_grid) to construct the covariance mapping from scratch.
 
