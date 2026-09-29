@@ -20,6 +20,10 @@ It will have to download the CIFAR dataset, and the plots will be generated in t
 
 I chose option 2, which was to reproduce figure 3 (predictive uncertainty vs. prediction error) from the paper.
 
+### Original vs. Reproduction Figures
+![Original Uncertainty Figure 3](uncertainty_fig3_original.png)
+![Reproduction Uncertainty Figure 3](uncertainty_fig3_reproduction.png)
+
 ## Unique Extension
 
 ### 1. Objective and Theoretical Justification
@@ -43,6 +47,10 @@ The experiment evaluated both architectures across the MNIST and CIFAR-10 datase
 The resulting plots show that the robust linear alignment between the model's output variance and its MSSE is preserved under alternative activations. On MNIST, ELU achieves a remarkable uncertainty correlation coefficient of 0.9730, trailing the baseline ReLU performance (0.9768) by a negligible margin. Crucially, on the more challenging CIFAR-10 classification benchmark, the ELU NNGP shows superior calibration characteristics, outperforming ReLU with a correlation coefficient of 0.8048 compared to ReLU's 0.7965. 
 
 Furthermore, the dynamic scaling visualizations highlight that ELU stretches the range of predicted output variances significantly outward relative to ReLU (reaching past 0.40 on MNIST and 0.70 on CIFAR-10). This indicates that the smooth exponential curve allows the infinite-width model to express broader, more granular variation in its posterior variance metrics without destabilizing accuracy trends.
+
+### Extension figure
+
+![Unique Extension Figure](extension_fig.png)
 
 ## Limitations
 
