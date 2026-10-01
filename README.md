@@ -1,4 +1,6 @@
 # Project 2: Reproducing Results from "Deep Neural Networks as Gaussian Processes"
+
+Repo link: https://github.com/willcreager/STAT4720_Project2
  
 ## Reproduction Instructions
 
